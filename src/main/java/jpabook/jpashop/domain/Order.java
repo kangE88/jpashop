@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,8 @@ public class Order {
     @JoinColumn(name = "delevery_id")
     private Delivery delivery;
 
-    private LocalDateTime orderDate; //주문시간
+//    @Column(name = "order_date")
+    private LocalDate orderDate; //주문시간
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // 주문상태 [ORDER, CANCEL]
@@ -67,7 +69,7 @@ public class Order {
             order.addOrderItem(orderItem);
         }
         order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(LocalDate.now());
         return order;
     }
 
