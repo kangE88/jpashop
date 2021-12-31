@@ -2,6 +2,7 @@ package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.weaver.ast.Or;
 import org.hibernate.Criteria;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Slf4j
 @RequiredArgsConstructor
 public class OrderRepository {
 
@@ -31,6 +33,9 @@ public class OrderRepository {
     public List<Order> findAllByString(OrderSearch orderSearch) {
         String jpql = "select o from Order o join o.member m";
         boolean isFirstCondition = true;
+
+        log.info("getMemberName >>"+orderSearch.getMemberName());
+        log.info("getOrderStatus >>"+orderSearch.getOrderStatus());
 
         //주문 상태 검색
         if (orderSearch.getOrderStatus() != null) {
@@ -60,7 +65,7 @@ public class OrderRepository {
         if (orderSearch.getOrderStatus() != null) {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
-        if (orderSearch.getMemberName() != null) {
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
 
